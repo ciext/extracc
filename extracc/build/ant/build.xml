@@ -1,0 +1,162 @@
+<project default="build">
+	<description>
+		${projectname} build for cruise control
+	</description>
+	
+	<dirname property="antfile.dir" file="${ant.file}" />
+
+	<target name="projectname">
+		<fail unless="projectname" />
+	</target>
+	
+	<target name="outdir">
+		<fail unless="out.dir" />
+		<mkdir dir="${out.dir}" />
+	</target>
+
+	<target name="cleanoutdir" depends="outdir">
+	
+		<delete>
+			<fileset dir="${out.dir}" />
+		</delete>
+		
+	</target>
+
+	<target name="initoutdir" depends="projectname,outdir,cleanoutdir">
+		<echo file="${out.dir}/buildinfo">projectname=${projectname}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">label=${label}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">cvstimestamp=${cvstimestamp}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">cctimestamp=${cctimestamp}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">cclastgoodbuildtimestamp=${cclastgoodbuildtimestamp}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">cclastbuildtimestamp=${cclastbuildtimestamp}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">lastbuildsuccessful=${lastbuildsuccessful}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">buildforced=${buildforced}${line.separator}</echo>
+		<echo file="${out.dir}/buildinfo" append="true">svnrevision=${svnrevision}</echo>
+	</target>
+
+	<!--target name="Makefile.check">
+		<uptodate property="Makefile.exits" targetfile="Makefile" srcfile="build.xml"/>
+	</target>
+
+	<target name="Makefile" depends="Makefile.check" unless="Makefile.exits"-->
+	<target name="makefile" depends="projectname,outdir,text2ccxml">
+		<exec executable="autogen.sh"
+			resolveexecutable="true"
+			failonerror="false"
+			failifexecutionfails = "false"
+			resultproperty = "makefile.result"
+			output = "${out.dir}/${projectname}-makefile.log"
+			append = "true"
+		>
+		</exec>
+		<condition property="makefile.failed">
+			<isfailure code="${makefile.result}" />
+		</condition>
+		
+		<text2ccxml srcfile = "${out.dir}/${projectname}-makefile.log"
+			destfile  = "${out.dir}/${projectname}-makefile_log.xml"
+			target    = "${projectname}"
+			task      = "makefile"
+			isError   = "${makefile.failed}"
+		/>
+		<fail if="makefile.failed" />
+	</target>
+	
+	<target name="build" depends="projectname,outdir,text2ccxml">
+		<exec executable="make" 
+			resolveexecutable="true" 
+			failonerror="false"
+			failifexecutionfails = "false"
+			resultproperty = "build.result"
+			output = "${out.dir}/${projectname}-build.log"
+		/>
+		<condition property="build.failed">
+			<isfailure code="${build.result}" />
+		</condition>
+
+		<text2ccxml srcfile = "${out.dir}/${projectname}-build.log"
+			destfile  = "${out.dir}/${projectname}-build_log.xml"
+			target    = "${projectname}"
+			task      = "build"
+			isError   = "${build.failed}"
+		/>
+		<fail if="build.failed" />
+	</target>
+
+	<target name="check" depends="projectname,outdir,text2ccxml">
+		<exec executable="make"
+			dir="test"
+			resolveexecutable="true"
+			failonerror="false"
+			resultproperty = "check.result"
+			output = "${out.dir}/${projectname}-check.log"
+		>
+			<arg value="check" />
+		</exec>    
+		<condition property="check.failed">
+			<isfailure code="${check.result}" />
+		</condition>
+		<text2ccxml srcfile = "${out.dir}/${projectname}-check.log"
+			destfile  = "${out.dir}/${projectname}-check_log${svnrevision}.xml"
+			target    = "${projectname}"
+			task      = "check"
+			isError   = "${check.failed}"
+		/>
+		<xslt style="${antfile.dir}/cppunit-to-junit.xsl"
+			basedir="test"
+			destdir="${out.dir}"
+		>
+			<mapper type="regexp"
+				from="^(.*)/(.*)_results\.xml$$"
+				to="\1_\2_results.xml" />
+		</xslt>
+		<fail if="check.failed" />
+	</target>
+	
+	<target name="svnupdate">
+		<exec executable="svn"
+			failonerror="true"
+		>
+			<arg value="update" />
+		</exec>    
+	</target>
+
+	<target name="makeclean" depends="makefile">
+		<exec executable="make"
+			resolveexecutable="true"
+			failonerror="true"
+		>
+			<arg value="clean" />
+		</exec>    
+	</target>
+
+	<target name="text2ccxml">
+		<mkdir dir="text2ccxml/lib" />
+		<javac srcdir="${antfile.dir}/text2ccxml/src"
+			destdir="text2ccxml/lib"
+		/>
+		<jar destfile="text2ccxml/text2ccxml.jar" basedir="text2ccxml/lib" />
+		<path id="lib.path">
+			<fileset dir="text2ccxml" includes="text2ccxml.jar" />
+		</path>
+		<taskdef name="text2ccxml"
+			classpathref="lib.path"
+			classname="com.gb.bci.ant.taskdefs.TextToCCXml"
+		/>
+	</target>
+	
+	<target name="cleantext2ccxml">
+		<delete
+			dir="text2ccxml/lib"
+			file="text2ccxml/text2ccxml.jar"
+		/>
+	</target>
+
+	<target name="clean" depends="cleanoutdir,cleantext2ccxml,makeclean" />
+
+	<target name="cruisecontrol" depends="svnupdate,initoutdir,build,check" />
+
+	<target name="fullcruisecontrol" depends="svnupdate,initoutdir,makeclean,cruisecontrol" />
+	
+</project>
+
