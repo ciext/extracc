@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # $Id: autogen.sh,v 1.4 2002/12/02 01:39:49 murrayc Exp $
 #
@@ -19,7 +19,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
+# Put all your default options in autogen-default-options file (one option per line)
+# in the same file as  this script
 
 dir=`echo "$0" | sed 's,[^/]*$,,'`
 test "x${dir}" = "x" && dir='.'
@@ -30,13 +31,20 @@ then
     exit 1
 fi
 
+unset default_options
+[ -f autogen-default-options ] && while read line; do
+	default_options[${#default_options[@]}]=$line
+done <<-eof
+$(cat autogen-default-options)
+eof
+
 rm -f config.cache acconfig.h
 
 echo "- autoreconf."     	&& \
 autoreconf -fvi          	&& \
 echo "- configure with arguments:"		&& \
-echo "$(cat autogen-default-options 2>/dev/null) $@"		&& \
-./configure $(cat autogen-default-options 2>/dev/null) "$@"		&& exit 0
+echo "${default_options[@]}" "$@"		&& \
+./configure "${default_options[@]}" "$@"		&& exit 0
 
 exit 1
 
