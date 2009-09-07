@@ -95,5 +95,9 @@ fi
 
 
 %changelog
+* Mon Sep 07 2009 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.3.0-1
+- Upstream integration
+
 * Mon Sep 07 2009 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.2.0-1
 - RPM release for Fedora 11
+
