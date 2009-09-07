@@ -80,10 +80,14 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS([ fstream ])
 
 # Define configured files
-AC_CONFIG_FILES(Makefile)
-AC_CONFIG_FILES(extracc.m4)
-AC_CONFIG_FILES(extracc-config)
-AC_CONFIG_FILES(extracppunit/Makefile)
+AC_CONFIG_FILES(
+		Makefile
+		extracc.spec
+		extracc.m4
+		extracc-config
+		extracppunit/Makefile
+		man/Makefile
+)
 AC_OUTPUT
 
 echo "

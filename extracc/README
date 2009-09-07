@@ -1,0 +1,8 @@
+
+CruiseControlisator for C++ library (CppUnit) unit tests
+========================================================
+
+That project aims at providing tools and code to be used in C++ projects
+relying on CppUnit (http://apps.sourceforge.net/mediawiki/cppunit) and/or
+Trac (http://trac.edgewall.org), to allow for easy integration with
+CruiseControl (http://cruisecontrol.sourceforge.net).

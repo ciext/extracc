@@ -37,4 +37,4 @@ EXTRA_DIST = @PACKAGE@.m4 $(install_sources)
 # Configuration helpers
 bin_SCRIPTS = @PACKAGE@-config
 
-SUBDIRS = extracppunit
+SUBDIRS = man extracppunit
