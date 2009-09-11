@@ -27,8 +27,6 @@ Summary:        Header files, libraries and development documentation for %{name
 Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
 Requires:       pkgconfig
-Requires(post): info
-Requires(preun): info
 
 %description    devel
 This package contains the header files, static libraries and
@@ -52,7 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 # Remove unpackaged files from the buildroot
 rm -f $RPM_BUILD_ROOT%{_includedir}/%{name}/config.h
-rm -f $RPM_BUILD_ROOT%{_infodir}/dir
+#rm -f $RPM_BUILD_ROOT%{_infodir}/dir
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib%{name}-extracppunit.la
 # Set the executable bit of the Python scripts
 chmod +x $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/*.py
@@ -68,14 +66,10 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 %post devel
-if [ 1 = 0 ]; then
-   echo
-fi
+echo ""
 
 %preun devel 
-if [ 1 = 0 ]; then
-   echo
-fi
+echo ""
 
 %files
 %defattr(-,root,root,-)
