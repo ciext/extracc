@@ -14,15 +14,28 @@ AC_DEFUN([AM_PATH_@PACKAGE_NAME@],
 	AC_LANG([C++])
 
 	AC_ARG_WITH(@PACKAGE@,
-		[ --with-@PACKAGE@=PFX   Prefix where @PACKAGE_NAME@ is installed (optional, default /usr/local)],
-		@PACKAGE@_dir="$withval",
-		@PACKAGE@_dir="/usr/local")
+		[ --with-@PACKAGE@=PFX   Prefix where @PACKAGE_NAME@ is installed (optional, default /usr or /usr/local)],
+		@PACKAGE@_dir_list="$withval",
+		@PACKAGE@_dir_list="/usr /usr/local")
+
+	# Look for @PACKAGE@ Configuration Script
+	#
+	AC_MSG_CHECKING([for @PACKAGE@ configuration script])
+	$@PACKAGE@_dir=
+	for p in $@PACKAGE@_dir_list
+	do
+		if test -f "$p/bin/@PACKAGE@-config"
+		then
+			$@PACKAGE@_dir=$p
+			break
+		fi
+	done
 
 	@PACKAGE_NAME@_CONFIG="$@PACKAGE@_dir/bin/@PACKAGE@-config"
 
 	AS_IF([test -d "$@PACKAGE@_dir" && test -x "$@PACKAGE_NAME@_CONFIG"],
 		[],
-		[AC_MSG_FAILURE([--with-@PACKAGE@ must be a valid directory where @PACKAGE_NAME@ is installed (default /usr/local)])])
+		[AC_MSG_FAILURE([--with-@PACKAGE@ must be a valid directory where @PACKAGE_NAME@ is installed (default /usr or /usr/local)])])
 
 	@PACKAGE_NAME@_VERSION=`$@PACKAGE_NAME@_CONFIG --version`
 	@PACKAGE_NAME@_CFLAGS=`$@PACKAGE_NAME@_CONFIG --cflags`

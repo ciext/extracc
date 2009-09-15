@@ -156,7 +156,9 @@
 
 	<target name="cruisecontrol" depends="svnupdate,initoutdir,build,check" />
 
-	<target name="fullcruisecontrol" depends="svnupdate,initoutdir,makeclean,cruisecontrol" />
+	<target name="fullcruisecontrol" depends="svnupdate,initoutdir,makefile,cruisecontrol" />
+
+	<target name="cleanfullcruisecontrol" depends="svnupdate,initoutdir,makeclean,cruisecontrol" />
 	
 </project>
 

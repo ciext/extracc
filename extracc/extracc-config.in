@@ -55,11 +55,7 @@ while test $# -gt 0; do
       ;;
 
     --cflags)
-      if [ "${prefix}" != "/usr" ]; then
-        echo -I${includedir}/@PACKAGE@
-      else
-        echo
-      fi
+      echo -I${includedir}/@PACKAGE@
       ;;
 
     --libs)

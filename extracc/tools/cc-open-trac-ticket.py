@@ -62,8 +62,9 @@ class CreateTicketForCC:
 		self.init_env( projectPath, url )
 		if url is None:
 			url = self.env.config.get('project', 'url') 
-		self.env.href = Href(url) 
-		self.env.abs_href = Href(url) 
+		
+		self.env._href = Href(url) 
+		self.env._abs_href = self.env._href
 		
 		if buildinfofile:
 			with open(buildinfofile,'r') as f:
