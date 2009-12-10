@@ -69,6 +69,7 @@ class CreateTicketForCC:
 		if buildinfofile:
 			with open(buildinfofile,'r') as f:
 				variables=dict(filter(lambda i:len(i)==2, [line.strip().split('=') for line in f]))
+			projectname=variables.get('projectname')
 			svnrevision=variables.get('svnrevision',svnrevision)
 			cctimestamp=variables.get('cctimestamp')
 			lastbuildsuccessful=variables.get('lastbuildsuccessful')
@@ -93,7 +94,7 @@ class CreateTicketForCC:
 
 			new_Ticket = Ticket(self.env)
 			new_Ticket['owner'] = chgsetauthor
-			new_Ticket['summary'] = 'CC build error after commit [%s]' % svnrevision
+			new_Ticket['summary'] = 'CC build error for %s after commit [%s]' % (projectname,svnrevision)
 			new_Ticket['description'] = description
 			new_Ticket['reporter'] = 'Cruise Control'
 			new_Ticket['status'] = 'new'

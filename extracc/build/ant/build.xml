@@ -8,6 +8,11 @@
 	<target name="projectname">
 		<fail unless="projectname" />
 	</target>
+
+	<target name="label">
+		<fail unless="label" />
+	</target>
+	
 	
 	<target name="outdir">
 		<fail unless="out.dir" />
@@ -152,6 +157,21 @@
 		/>
 	</target>
 
+	<target name="build_java" depends="projectname,outdir">
+		<ant target="compile" inheritAll="false" />
+	</target>
+
+	<target name="check_java" depends="projectname,outdir">
+		<ant target="check" inheritAll="false" />
+	</target>
+
+	<target name="publish_java" depends="projectname,outdir,label">
+		<ant target="publish" inheritAll="false">
+			<property name="cc.buildnum" value="${label}" />
+			<property name="cc.outputfolder" value="output" />
+		</ant>
+	</target>
+
 	<target name="clean" depends="cleanoutdir,cleantext2ccxml,makeclean" />
 
 	<target name="cruisecontrol" depends="svnupdate,initoutdir,build,check" />
@@ -159,6 +179,8 @@
 	<target name="fullcruisecontrol" depends="svnupdate,initoutdir,makefile,cruisecontrol" />
 
 	<target name="cleanfullcruisecontrol" depends="svnupdate,initoutdir,makeclean,cruisecontrol" />
+
+	<target name="cruisecontrol_java" depends="svnupdate,initoutdir,build_java,check_java,publish_java" />
 	
 </project>
 
