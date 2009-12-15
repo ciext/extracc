@@ -158,16 +158,23 @@
 	</target>
 
 	<target name="build_java" depends="projectname,outdir">
-		<ant target="compile" inheritAll="false" />
+		<ant target="compile" inheritAll="false">
+			<property name="cc.outputfolder" value="output" />
+			<property name="cc.svnrevision" value="${svnrevision}" />
+		</ant>
 	</target>
 
 	<target name="check_java" depends="projectname,outdir">
-		<ant target="check" inheritAll="false" />
+		<ant target="check" inheritAll="false">
+			<property name="cc.outputfolder" value="output" />
+			<property name="cc.svnrevision" value="${svnrevision}" />
+		</ant>
 	</target>
 
 	<target name="publish_java" depends="projectname,outdir,label">
 		<ant target="publish" inheritAll="false">
 			<property name="cc.buildnum" value="${label}" />
+			<property name="cc.svnrevision" value="${svnrevision}" />
 			<property name="cc.outputfolder" value="output" />
 		</ant>
 	</target>
