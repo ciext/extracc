@@ -67,7 +67,7 @@ while test $# -gt 0; do
       ;;
 
     --extracppunit-makefile-include)
-      echo include ${datadir}/extracc/extracppunit/Makefile.common
+      echo include ${datadir}/@PACKAGE@/extracppunit/Makefile.common
       ;;
 
 	  *)
