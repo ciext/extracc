@@ -1,4 +1,6 @@
+## top directory
 @SET_MAKE@
+
 AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
 
 ACLOCAL_AMFLAGS = -I config
@@ -8,6 +10,18 @@ AUTOMAKE_OPTIONS = dist-bzip2
 # Maintainance files
 MAINTAINERCLEANFILES = Makefile.in aclocal.m4 configure \
 			config-h.in autogen.sh
+
+EXTRA_DIST = @PACKAGE@.m4 $(install_sources)
+
+# Build in these directories:
+SUBDIRS = extracppunit man
+
+
+# Configuration helpers
+bin_SCRIPTS = @PACKAGE@-config
+
+#pkgconfigdir = $(libdir)/pkgconfig
+#pkgconfig_DATA = @PACKAGE@.pc
 
 datadir = @datadir@
 pkgdatadir = $(datadir)/@PACKAGE@
@@ -22,6 +36,7 @@ install_sources = \
 	build/ant/text2ccxml/src/com/gb/bci/ant/taskdefs/TextToCCXml.java \
 	tools/cc-open-trac-ticket.py
 
+# Targets
 install-data-local: $(addprefix $(DESTDIR)$(pkgdatadir)/,$(install_sources))
 $(DESTDIR)$(pkgdatadir)/%: %
 	$(mkinstalldirs) `dirname $@`
@@ -29,12 +44,3 @@ $(DESTDIR)$(pkgdatadir)/%: %
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(pkgdatadir)/*
-
-nobase_pkginclude_HEADERS = extracppunit/CppUnitCore.hpp 
-
-EXTRA_DIST = @PACKAGE@.m4 $(install_sources)
-
-# Configuration helpers
-bin_SCRIPTS = @PACKAGE@-config
-
-SUBDIRS = man extracppunit

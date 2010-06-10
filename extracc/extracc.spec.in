@@ -1,6 +1,3 @@
-#
-%define mydocs __tmp_docdir
-#
 Name:           @PACKAGE@
 Version:        @VERSION@
 Release:        @RPM_RELEASE@%{?dist}
@@ -49,14 +46,10 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 # Remove unpackaged files from the buildroot
-rm -f $RPM_BUILD_ROOT%{_includedir}/%{name}/config.h
-#rm -f $RPM_BUILD_ROOT%{_infodir}/dir
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib%{name}-extracppunit.la
+rm -rf $RPM_BUILD_ROOT%{_includedir}/%{name}
+rm -f $RPM_BUILD_ROOT%{_libdir}/libextracppunit.la
 # Set the executable bit of the Python scripts
 chmod +x $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/*.py
-# chmod 644 doc/html/installdox doc/html/*.png doc/html/*.ico
-#rm -rf %{mydocs} && mkdir -p %{mydocs}
-#mv $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/html %{mydocs}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,13 +67,13 @@ echo ""
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS README
-%{_libdir}/lib*.so.*
+%{_libdir}/libextracppunit.so.*
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/%{name}
+%{_includedir}/extracppunit/
 %{_bindir}/%{name}-config
-%{_libdir}/lib%{name}-extracppunit.so
+%{_libdir}/libextracppunit.so
 %{_datadir}/aclocal/%{name}.m4
 %{_datadir}/%{name}/extracppunit/
 %{_datadir}/%{name}/build/
@@ -89,6 +82,9 @@ echo ""
 
 
 %changelog
+* Mon Jun 10 2010 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.5.0-1
+- Upstream integration
+
 * Mon Jun 10 2010 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.4.0-1
 - Upstream integration
 

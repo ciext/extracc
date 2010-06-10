@@ -1,4 +1,6 @@
-test_com_h_sources = CppUnitCore.hpp \
-				XmlOutputterHookForCC.hpp
-test_com_cc_sources = CppUnitCore.cpp \
-				XmlOutputterHookForCC.cpp
+extracppunit_h_sources = \
+	$(top_srcdir)/extracppunit/CppUnitCore.hpp \
+	$(top_srcdir)/extracppunit/XmlOutputterHookForCC.hpp
+extracppunit_cc_sources = \
+	$(top_srcdir)/extracppunit/CppUnitCore.cpp \
+	$(top_srcdir)/extracppunit/XmlOutputterHookForCC.cpp

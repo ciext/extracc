@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
-AC_COPYRIGHT([Copyright (C) 2009 Christophe Lacombe <ddtof@users.sourceforge.net>])
-AC_INIT([EXTRACC],[99.99.99],[clacombe@amadeus.com],[extracc])
+AC_COPYRIGHT([Copyright (C) 2009-2010 Christophe Lacombe <ddtof@users.sourceforge.net>])
+AC_INIT([EXTRACC],[0.5.0],[clacombe@amadeus.com],[extracc])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
 
@@ -14,7 +14,7 @@ RPM_RELEASE="1"
 AC_SUBST(RPM_RELEASE)
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="99:99:99"
+GENERIC_LIBRARY_VERSION="0:5:0"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |
