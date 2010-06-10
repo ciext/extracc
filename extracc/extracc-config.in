@@ -64,9 +64,9 @@ while test $# -gt 0; do
 
     --libs)
       if [ "${prefix}" != "/usr" ]; then
-        echo -L${libdir} -l@PACKAGE@-extracppunit
+        echo -L${libdir} -lextracppunit
       else
-        echo -l@PACKAGE@-extracppunit
+        echo -lextracppunit
       fi
       ;;
 

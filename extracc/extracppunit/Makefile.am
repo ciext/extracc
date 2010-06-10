@@ -12,8 +12,9 @@ lib_LTLIBRARIES = libextracppunit.la
 #
 libextracppunit_la_SOURCES = \
 	$(extracppunit_h_sources) $(extracppunit_cc_sources)
-libextracppunit_la_CXXFLAGS = $(CXXFLAGS_OPT) $(CPPUNIT_CFLAGS)
-libextracppunit_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
+libextracppunit_la_CXXFLAGS = $(CPPUNIT_CFLAGS)
+libextracppunit_la_LDFLAGS = $(CPPUNIT_LIBS) \
+	-version-info $(GENERIC_LIBRARY_VERSION)
 
 
 # Header files
