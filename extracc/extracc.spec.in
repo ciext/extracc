@@ -7,7 +7,7 @@ Summary:        CruiseControlisator for C++ library (CppUnit) unit tests
 Group:          System Environment/Libraries 
 License:        LGPLv2
 URL:            http://sourceforge.net/projects/%{name}/
-Source0:        http://sourceforge.net/projects/%{name}/files/%{name}/%{version}/%{name}-%{version}.tar.bz2/download
+Source0:        http://sourceforge.net/projects/%{name}/files/%{name}/%{version}/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  cppunit-devel >= 1.10
