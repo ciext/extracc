@@ -1,13 +1,13 @@
 Name:           extracc
 Version:        0.5.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 Summary:        CruiseControlisator for C++ library (CppUnit) unit tests
 
 Group:          System Environment/Libraries 
 License:        LGPLv2+
 URL:            http://sourceforge.net/projects/%{name}/
-Source0:        http://sourceforge.net/projects/%{name}/files/%{name}/%{version}/%{name}-%{version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/%{name}/%{version}/%{name}-%{version}.tar.bz2
 %{?el5:BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)}
 
 BuildRequires:  cppunit-devel
@@ -31,8 +31,10 @@ programs using %{name}, you will need to install %{name}-devel.
 
 %prep
 %setup -q
-# Fix some permissions and formats
+# The INSTALL package is not relevant for RPM package users
+# (e.g., see https://bugzilla.redhat.com/show_bug.cgi?id=489233#c4)
 rm -f INSTALL
+# Fix some permissions and formats
 chmod -x AUTHORS ChangeLog COPYING NEWS README
 find . -type f -name '*.[hc]pp' -exec chmod 644 {} \;
 
@@ -46,6 +48,7 @@ make %{?_smp_mflags}
 %if 0%{?rhel}
 rm -rf $RPM_BUILD_ROOT
 %endif
+
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 # Remove unpackaged files from the buildroot
@@ -57,7 +60,7 @@ chmod +x $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/*.py
 
 # The clean section is no longer needed.
 # See: https://fedoraproject.org/wiki/Packaging/Guidelines#.25clean
-%if 0%{?fedora} < 13
+%if 0%{?rhel}
 %clean
 rm -rf $RPM_BUILD_ROOT
 %endif
@@ -86,7 +89,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Aug 21 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-2
+* Mon Aug 30 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-3
+- Integrated comments from the StdAir package review (#614036)
+
+* Mon Aug 23 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-2
 - Integrated comments from the package review (#616881)
 
 * Mon Jun 10 2010 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.5.0-1
