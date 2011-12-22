@@ -20,7 +20,7 @@ autoreconf -fvi                 && \
 echo "" && \
 echo "Now, the configuration script has to be run. For instance:" && \
 echo "mkdir -p tmp && cd tmp && \\" && \
-echo " ../configure --prefix=/home/user/dev/deliveries/extracc-0.5.0 \\ " && \
+echo " ../configure --prefix=/home/user/dev/deliveries/extracc-0.6.0 \\ " && \
 echo "  --srcdir=.." && \
 echo "" && \
 echo "Then:" && \

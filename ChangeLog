@@ -1,4 +1,8 @@
 
+* Thu Dec 22 2011 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.6.0
+- The GNU Autotools can now be made out-of-source (e.g., in a 'tmp'
+directory).
+
 * Thu Jun 10 2010 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.5.0
 - Xxx
 

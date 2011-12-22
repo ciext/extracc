@@ -1,17 +1,16 @@
-Name:           @PACKAGE@
-Version:        @VERSION@
-Release:        @RPM_RELEASE@%{?dist}
+Name:           extracc
+Version:        0.6.0
+Release:        1%{?dist}
 
 Summary:        CruiseControlisator for C++ library (CppUnit) unit tests
 
 Group:          System Environment/Libraries 
-License:        LGPLv2
+License:        LGPLv2+
 URL:            http://sourceforge.net/projects/%{name}/
-Source0:        http://sourceforge.net/projects/%{name}/files/%{name}/%{version}/%{name}-%{version}.tar.bz2/download
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:        http://downloads.sourceforge.net/%{name}/%{version}/%{name}-%{version}.tar.bz2
+%{?el5:BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)}
 
-BuildRequires:  cppunit-devel >= 1.10
-#Requires:       
+BuildRequires:  cppunit-devel
 
 %description
 That project aims at providing tools and code to be used in C++ projects
@@ -23,7 +22,6 @@ CruiseControl (http://cruisecontrol.sourceforge.net).
 Summary:        Header files, libraries and development documentation for %{name}
 Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
-Requires:       pkgconfig
 
 %description    devel
 This package contains the header files, static libraries and
@@ -33,8 +31,10 @@ programs using %{name}, you will need to install %{name}-devel.
 
 %prep
 %setup -q
-# Fix some permissions and formats
+# The INSTALL package is not relevant for RPM package users
+# (e.g., see https://bugzilla.redhat.com/show_bug.cgi?id=489233#c4)
 rm -f INSTALL
+# Fix some permissions and formats
 chmod -x AUTHORS ChangeLog COPYING NEWS README
 find . -type f -name '*.[hc]pp' -exec chmod 644 {} \;
 
@@ -43,26 +43,32 @@ find . -type f -name '*.[hc]pp' -exec chmod 644 {} \;
 make %{?_smp_mflags}
 
 %install
+# On Fedora, the BuildRoot is automatically cleaned. Which is not the case for
+# RedHat. See: https://fedoraproject.org/wiki/Packaging/Guidelines#BuildRoot_tag
+%if 0%{?rhel}
 rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
+%endif
+
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+
 # Remove unpackaged files from the buildroot
 rm -rf $RPM_BUILD_ROOT%{_includedir}/%{name}
 rm -f $RPM_BUILD_ROOT%{_libdir}/libextracppunit.la
+
 # Set the executable bit of the Python scripts
 chmod +x $RPM_BUILD_ROOT%{_datadir}/%{name}/tools/*.py
 
+# The clean section is no longer needed.
+# See: https://fedoraproject.org/wiki/Packaging/Guidelines#.25clean
+%if 0%{?rhel}
 %clean
 rm -rf $RPM_BUILD_ROOT
+%endif
+
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
-
-%post devel
-echo ""
-
-%preun devel 
-echo ""
 
 %files
 %defattr(-,root,root,-)
@@ -75,6 +81,7 @@ echo ""
 %{_bindir}/%{name}-config
 %{_libdir}/libextracppunit.so
 %{_datadir}/aclocal/%{name}.m4
+%dir %{_datadir}/%{name}/
 %{_datadir}/%{name}/extracppunit/
 %{_datadir}/%{name}/build/
 %{_datadir}/%{name}/tools/
@@ -82,6 +89,15 @@ echo ""
 
 
 %changelog
+* Thu Dec 22 2011 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.6.0-1
+- Upstream update
+
+* Mon Aug 30 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-3
+- Integrated comments from the StdAir package review (#614036)
+
+* Mon Aug 23 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-2
+- Integrated comments from the package review (#616881)
+
 * Mon Jun 10 2010 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.5.0-1
 - Upstream integration
 
@@ -93,3 +109,4 @@ echo ""
 
 * Mon Sep 07 2009 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.2.0-1
 - RPM release for Fedora 11
+

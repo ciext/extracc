@@ -1,4 +1,8 @@
 
+2011-12-22:
+- Version 0.6.0
+- The GNU Autotools can now be made out-of-source (e.g., in a 'tmp' directory).
+
 2010-06-10:
 - Version 0.5.0
 - Xxx
