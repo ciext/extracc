@@ -1,4 +1,16 @@
 
-* Mon Sep 07 2009
-A RPM package has been made for Fedora 11.
+2011-12-22:
+- Version 0.6.0
+- The GNU Autotools can now be made out-of-source (e.g., in a 'tmp' directory).
+
+2009-12-07:
+- Version 0.3.0
+
+2009-09-07:
+- Version 0.2.0
+- RPM release for Fedora 11
+
+2009-05-25:
+- Version 0.1.0
+- Initial release: the library produces CruiseControl-compliant XML output
 

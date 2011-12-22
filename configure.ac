@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
-AC_COPYRIGHT([Copyright (C) 2009-2010 Christophe Lacombe <ddtof@users.sourceforge.net>])
-AC_INIT([EXTRACC],[99.99.99],[clacombe@amadeus.com],[extracc])
+AC_COPYRIGHT([Copyright (C) 2009-2011 Christophe Lacombe <ddtof@users.sourceforge.net>])
+AC_INIT([EXTRACC],[0.6.0],[clacombe@amadeus.com],[extracc])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
 
@@ -10,7 +10,7 @@ AM_PATH_CPPUNIT(1.10)
 AM_CONDITIONAL([HAVE_CPPUNIT], [test "x$CPPUNIT_LIBS" != x])
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="99:99:99"
+GENERIC_LIBRARY_VERSION="0:6:0"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |

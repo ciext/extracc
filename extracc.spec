@@ -1,6 +1,6 @@
 Name:           extracc
-Version:        0.5.0
-Release:        3%{?dist}
+Version:        0.6.0
+Release:        1%{?dist}
 
 Summary:        CruiseControlisator for C++ library (CppUnit) unit tests
 
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 22 2011 Denis Arnaud <denis.arnaud_fedora@m4x.org> 0.6.0-1
+- Upstream update
+
 * Mon Aug 30 2010 Christophe Lacombe <clacombe@amadeus.com> 0.5.0-3
 - Integrated comments from the StdAir package review (#614036)
 
